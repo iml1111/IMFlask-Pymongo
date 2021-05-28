@@ -1,6 +1,6 @@
-'''
+"""
 Application Main Manage Module
-'''
+"""
 import os
 import unittest
 import click
