@@ -6,7 +6,7 @@ import unittest
 import click
 from config import config, APP_NAME
 from app import create_app
-from app import models
+import model
 
 application = create_app(os.getenv('FLASK_CONFIG') or 'default')
 
@@ -19,8 +19,8 @@ def make_shell_context():
 
 @application.cli.command()
 def db_init():
-    """First, run the Database init modules."""
-    models.init_app(config[os.getenv('FLASK_CONFIG') or 'default'])
+    """First, run the Database init controller."""
+    model.init_app(config[os.getenv('FLASK_CONFIG') or 'default'])
 
 
 @application.cli.command()

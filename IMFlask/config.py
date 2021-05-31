@@ -14,6 +14,7 @@ BASEDIR = os.path.abspath(os.path.dirname(__file__))
 class Config:
     '''General Config'''
     SLOW_API_TIME = 0.5
+    API_LOGGING = True
     MONGODB_URI = os.environ[APP_NAME + "_MONGODB_URI"]
     MONGODB_NAME = os.environ[APP_NAME + "_MONGODB_NAME"]
 
@@ -69,3 +70,7 @@ config = {
     'testing':TestingConfig,
     'default':DevelopmentConfig,
 }
+
+
+if __name__ == '__main__':
+    print(BASEDIR)
