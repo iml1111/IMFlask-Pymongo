@@ -8,7 +8,7 @@ from config import config, APP_NAME
 from app import create_app
 import model
 
-application = create_app(os.getenv('FLASK_CONFIG') or 'default')
+application = create_app(config)
 
 
 @application.shell_context_processor
@@ -20,7 +20,7 @@ def make_shell_context():
 @application.cli.command()
 def db_init():
     """First, run the Database init controller."""
-    model.init_app(config[os.getenv('FLASK_CONFIG') or 'default'])
+    model.init_app(config)
 
 
 @application.cli.command()

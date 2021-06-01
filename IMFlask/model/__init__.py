@@ -9,7 +9,6 @@ def init_app(config):
     """Model Init Function"""
 
     # MongoDB Init
-    uri = config.MONGODB_URI
-    initializer = mongodb.ModelInitializer(uri)
+    initializer = mongodb.ModelInitializer()
     initializer.init_model()
     print("[%s] MongoDB Initialization Completed" % APP_NAME)

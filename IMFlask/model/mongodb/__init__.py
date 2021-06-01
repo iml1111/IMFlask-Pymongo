@@ -1,45 +1,72 @@
-# from pymongo import MongoClient
-# from .log import Log
-# from .master_config import MasterConfig
-#
-#
-# def get_cursor(uri):
-#     return MongoClient(uri)
-#
-#
-# class ModelInitializer:
-#
-#     def __init__(self, uri):
-#         self.uri = uri
-#
-#     @property
-#     def cursor(self):
-#         return get_cursor(self.uri)
-#
-#     def init_model(self):
-#         with self.cursor as cur:
-#             pass
-#
-#     @staticmethod
-#     def init_indexes(cur):
-#         """Create Indexes each Collection"""
-#         collections = [Log, MasterConfig]
+from abc import ABCMeta
+from datetime import datetime
+from pymongo import MongoClient
+from config import config
 
-if __name__ == '__main__':
-    import os
-    BASEDIR = os.path.abspath(os.path.dirname(__file__))
-    file_list = os.listdir(BASEDIR)
-    model_list = []
-    for file_i in file_list:
-        if not file_i.startswith('__init__') and file_i.endswith('.py'):
-            module = __import__(file_i[:-3])
-            model = getattr(
-                module,
-                file_i[:-3]
-                    .replace("_", " ")
-                    .title()
-                    .replace(" ", "")
-            )
-            model_list.append(model)
-    # TODO: 모델 디스커버 함수로 만들어서 콜렉션 생성 자동화
-    print(model_list)
+# Collections
+from .log import Log
+from .master_config import MasterConfig
+MODELS = [Log, MasterConfig]
+
+
+def get_cursor(uri=config.MONGODB_URI) -> MongoClient:
+    """Get MongoDB Cursor"""
+    return MongoClient(uri)
+
+
+class Model(metaclass=ABCMeta):
+
+    VERSION = 1
+
+    def __init__(self, client, db_name=config.MONGODB_NAME):
+        self.col = client[db_name][self.__class__.__name__]
+
+    @property
+    def index(self) -> list:
+        """Get Index List"""
+        return []
+
+    @property
+    def schema(self) -> dict:
+        """Get default document format"""
+        return {
+            'created_at': datetime.now(),
+            'updated_at': datetime.now(),
+            '__version__': self.VERSION,
+        }
+
+    def create_index(self) -> None:
+        """Create indexes"""
+        self.col.create_indexes(self.index)
+
+    def schemize(self, document: dict) -> dict:
+        """generate JSON scheme"""
+        return {**self.schema, **document}
+
+
+class ModelInitializer:
+
+    def __init__(self):
+        self.uri = config.MONGODB_URI
+        self.db = config.MONGODB_NAME
+
+    @property
+    def cursor(self):
+        return get_cursor(self.uri)
+
+    def init_model(self):
+        """Initializer All Process"""
+        with self.cursor as cur:
+            self.init_index(cur)
+            self.init_hello(cur)
+
+    @staticmethod
+    def init_index(cur):
+        """Create Indexes each Collection"""
+        for model in MODELS:
+            model(cur).create_index()
+
+    @staticmethod
+    def init_hello(cur):
+        """Customize for you"""
+

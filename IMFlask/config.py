@@ -69,8 +69,8 @@ config = {
     'production':ProductionConfig,
     'testing':TestingConfig,
     'default':DevelopmentConfig,
-}
+}[os.getenv('FLASK_CONFIG') or 'default']
 
 
 if __name__ == '__main__':
-    print(BASEDIR)
+    pass
