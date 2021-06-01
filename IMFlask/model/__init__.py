@@ -11,4 +11,4 @@ def init_app(config):
     # MongoDB Init
     initializer = mongodb.ModelInitializer()
     initializer.init_model()
-    print("[%s] MongoDB Initialization Completed" % APP_NAME)
+    print("[%s] MongoDB Initialization Completed." % APP_NAME)

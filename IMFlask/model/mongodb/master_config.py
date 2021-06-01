@@ -1,5 +1,5 @@
 from datetime import datetime
-from model.mongodb import Model
+from .base import Model
 
 
 class MasterConfig(Model):

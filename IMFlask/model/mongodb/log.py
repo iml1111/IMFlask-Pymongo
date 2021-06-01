@@ -1,7 +1,7 @@
 from datetime import datetime
 from pymongo import IndexModel, DESCENDING, ASCENDING
-from model.mongodb import Model
-from tests.mock import Mock
+from .base import Model
+
 
 class Log(Model):
 
