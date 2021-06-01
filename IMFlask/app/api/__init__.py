@@ -15,7 +15,10 @@ def init_app(app):
     @app.before_request
     def before_request():
         config = current_app.config
-        g.db = mongodb.get_cursor(config['MONGODB_URI'])
+        if config['TESTING'] is True:
+            g.db = None
+        else:
+            g.db = mongodb.get_cursor(config['MONGODB_URI'])
 
     @app.after_request
     def after_request(response):

@@ -19,7 +19,10 @@ class Model(metaclass=ABCMeta):
     VERSION = 1
 
     def __init__(self, client, db_name=config.MONGODB_NAME):
-        self.col = client[db_name][self.__class__.__name__]
+        if client:
+            self.col = client[db_name][self.__class__.__name__]
+        else:
+            self.col = None
 
     @property
     def index(self) -> list:
@@ -37,7 +40,8 @@ class Model(metaclass=ABCMeta):
 
     def create_index(self) -> None:
         """Create indexes"""
-        self.col.create_indexes(self.index)
+        if self.col:
+            self.col.create_indexes(self.index)
 
     def schemize(self, document: dict) -> dict:
         """generate JSON scheme"""

@@ -1,7 +1,7 @@
 from datetime import datetime
 from pymongo import IndexModel, DESCENDING, ASCENDING
 from model.mongodb import Model
-
+from model.mock import Mock
 
 class Log(Model):
 
@@ -26,12 +26,25 @@ class Log(Model):
         }
 
     def insert_log(self, document):
-        self.col.insert_one(self.schemize(document))
+        if self.col:
+            self.col.insert_one(self.schemize(document))
 
-    def get_log(self, _skip: int, _limit: int, proj=None):
-        return list(
-            self.col.find({}, proj)
+    def get_log(self, _skip: int, _limit: int):
+        if self.col:
+            return list(
+                self.col.find(
+                    {}, {
+                    '_id': 0,
+                    'ipv4': 1,
+                    'url': 1,
+                    'method': 1,
+                    'params': 1,
+                    'status_code': 1,
+                    'created_at': 1,
+                })
                 .sort([('created_at', DESCENDING)])
                 .skip(_skip)
                 .limit(_limit)
-        )
+            )
+        else:
+            return Mock.get_log(_skip, _limit)
