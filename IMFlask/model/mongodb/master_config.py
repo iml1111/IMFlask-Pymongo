@@ -19,8 +19,17 @@ class MasterConfig(Model):
             '__version__': self.VERSION,
         }
 
-    def get_author(self, proj=None):
-        return self.col.find_one({'author_type': 'author'}, proj)
+    def get_author(self):
+        return self.col.find_one(
+            {'author_type': 'author'},
+            {
+                '_id': 0,
+                'config_type': 1,
+                '__author__': 1,
+                'created_at': 1,
+                'updated_at': 1,
+            }
+        )
 
     def change_author(self, author: str):
         self.col.update(

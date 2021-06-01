@@ -4,8 +4,11 @@ Application Factory Module
 from flask import Flask
 from app import api
 
+# Routes
 from app.api.template import template as template_bp
 from app.api.error_handler import error_handler as error_bp
+from app.api.sample_api import sample_api as sample_api_bp
+
 
 def create_app(config):
     app = Flask(
@@ -21,5 +24,6 @@ def create_app(config):
 
     app.register_blueprint(error_bp)
     app.register_blueprint(template_bp)
+    app.register_blueprint(sample_api_bp, url_prefix='/sample/')
 
     return app

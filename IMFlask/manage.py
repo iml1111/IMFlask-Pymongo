@@ -10,7 +10,6 @@ import model
 
 application = create_app(config)
 
-
 @application.shell_context_processor
 def make_shell_context():
     """Init shell context."""

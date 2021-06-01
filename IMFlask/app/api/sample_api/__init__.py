@@ -5,4 +5,4 @@ from flask import Blueprint
 
 sample_api = Blueprint('sample_api')
 
-from . import calcurator
+from . import calculator, info

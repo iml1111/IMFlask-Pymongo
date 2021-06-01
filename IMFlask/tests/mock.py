@@ -26,3 +26,4 @@ class Mock:
             'created_at': datetime.now(),
             'updated_at': datetime.now(),
         }
+

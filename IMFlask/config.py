@@ -64,12 +64,14 @@ class ProductionConfig(Config):
         })
 
 
-config = {
+config_dict = {
     'development':DevelopmentConfig,
     'production':ProductionConfig,
     'testing':TestingConfig,
     'default':DevelopmentConfig,
-}[os.getenv('FLASK_CONFIG') or 'default']
+}
+
+config = config_dict[os.getenv('FLASK_CONFIG') or 'default']
 
 
 if __name__ == '__main__':
