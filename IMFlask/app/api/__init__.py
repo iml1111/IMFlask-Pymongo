@@ -1,7 +1,7 @@
 """
 API Request Handler and util
 """
-from flask import abort, g, current_app, request, Response
+from flask import g, current_app, request, Response
 from model import mongodb
 from model.mongodb import Log
 
@@ -21,6 +21,7 @@ def init_app(app):
     @app.after_request
     def after_request(response):
         config = current_app.config
+
         # Slow API Tracking
         if (
             'process_time' in g
@@ -33,18 +34,20 @@ def init_app(app):
                       "slow time: " + str(g.process_time) + "\n"
             app.logger.warning(log_str)
 
-        # TODO: Api Tracking / Config 연동
-        if isinstance(response, Response):
-            status_code = response.status_code
-        else:
-            status_code = response[1]
-        Log(g.db).insert_log({
-            'ipv4': request.remote_addr,
-            'url': request.full_path,
-            'method': request.method,
-            'params': str(request.data),
-            'status_code': status_code
-        })
+        # API Logging
+        if config['API_LOGGING']:
+            if isinstance(response, Response):
+                status_code = response.status_code
+            else:
+                status_code = response[1]
+
+            Log(g.db).insert_log({
+                'ipv4': request.remote_addr,
+                'url': request.full_path,
+                'method': request.method,
+                'params': request.data.decode(),
+                'status_code': status_code
+            })
 
         return response
 
@@ -60,8 +63,11 @@ def init_app(app):
         pass
 
 
-def response(result):
-    return {'msg': 'success', 'result': result, "a":"신희재"}, 200
+def response(result=None):
+    if result is None:
+        return {'msg': 'success'}, 200
+    else:
+        return {'msg': 'success', 'result': result}, 200
 
 
 def bad_request(description):
