@@ -11,6 +11,46 @@ Flask를 사용하여 대규모 어플리케이션 서버를 구축한다고 가
 
 
 
+## Get Started
+
+운영체제마다 세부적인 실행방법이 다를 수 있습니다. 
+
+```
+# Get Repository
+$ git clone https://github.com/iml1111/IMFlask-Pymongo
+$ cd IMFlask-Pymongo/
+
+# Connect virtual env
+$ python3 -m venv venv
+$ source ./venv/bin/activate
+
+# Install dependency
+$ pip install -r ./requirements/requirements.txt
+
+$ cd IMFlask/
+
+```
+
+
+
+
+
+## Dependency
+
+- python 3.6+
+- Flask==2.0.1
+- flask-validation-extended==0.1.5
+- pymongo==3.11.4
+- python-dotenv==0.17.1
+
+
+
+
+
+
+
+
+
 # Concept
 
 ### Application Factory
@@ -34,7 +74,11 @@ Flask extension는 유용하지만 몇가지 문제가 있다고 생각했습니
 
 ### 모든 모듈은 각각 독립적으로 실행이 가능해야 한다
 
+Api endpoint 단 함수를 제외한 **모든 Controller 및 Model들은 독립적으로 실행이 가능해야 합니다.**
 
+따라서 대부분의 모듈에서 외부 의존성(특히 DB Connection 같은)이 발생하는 코드를 최대한 줄이고 필요할 경우, 따로 주입받을 수 있도록 구현되어 독립적으로 자유롭게 실행 및 테스트가 가능하게 하였습니다.
+
+Api단에서 Model(DB)에 대한 의존성이 발생하는 경우, unittest 라이브러리에서 제공하는 Mocking을 통해 테스트단에서 원할한 실행이 가능하도록 합니다. 
 
 
 
@@ -54,11 +98,11 @@ Flask extension는 유용하지만 몇가지 문제가 있다고 생각했습니
 제가 들은 지식을 바탕으로 가능한한 RESTful스럽게 구현을 해보긴 했습니다만, 역시나 얕게 들은 지식인 만큼 완전하지 않습니다. 다만, 적어도 아래와 같은 규약을 적용해보았습니다.
 
 - 모든 API는 **GET, POST, PUT, DELETE 내에서 규격화하여 url을 단축**시켰습니다.
-- 모든 API의 **request/response의 data tranfer format은 JSON으로 일관적으로 처리**하였습니다.
+- 모든 API의 **request/response의 data transfer format은 JSON으로 일관적으로 처리**하였습니다.
 
 후에 파일 업로드 처리는 어떻게 할 것이냐는 숙제가 남아있습니다만, 이 경우 예외적으로 multipart/form-data을 활용하거나 다른 방안을 생각해봐야 할 것 같습니다.
 
 
 
-### Flask Extended 적용
+# Flask Extended 적용
 
