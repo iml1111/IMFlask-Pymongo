@@ -26,6 +26,7 @@ class ModelInitializer:
         """Initializer All Process"""
         with self.cursor as cur:
             self.init_index(cur)
+            self.init_author(cur)
             self.init_hello(cur)
 
     @staticmethod
@@ -33,6 +34,11 @@ class ModelInitializer:
         """Create Indexes each Collection"""
         for model in MODELS:
             model(cur).create_index()
+
+    @staticmethod
+    def init_author(cur):
+        """Insert Author config"""
+        MasterConfig(cur).insert_author('IML')
 
     @staticmethod
     def init_hello(cur):

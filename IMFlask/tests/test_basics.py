@@ -6,6 +6,7 @@ from flask import current_app
 from app import create_app
 from config import config_dict
 
+# TODO: 테스트 케이스 작성 및 Mock 테스트 해보기
 
 class BasicsTestCase(unittest.TestCase):
     '''Basics Test Case'''

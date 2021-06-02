@@ -15,6 +15,7 @@ class Config:
     '''General Config'''
     SLOW_API_TIME = 0.5
     API_LOGGING = True
+    JSON_AS_ASCII = False
     MONGODB_URI = os.environ[APP_NAME + "_MONGODB_URI"]
     MONGODB_NAME = os.environ[APP_NAME + "_MONGODB_NAME"]
 

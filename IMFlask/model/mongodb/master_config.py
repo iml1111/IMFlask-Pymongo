@@ -21,7 +21,7 @@ class MasterConfig(Model):
 
     def get_author(self):
         return self.col.find_one(
-            {'author_type': 'author'},
+            {'config_type': 'author'},
             {
                 '_id': 0,
                 'config_type': 1,
@@ -31,9 +31,20 @@ class MasterConfig(Model):
             }
         )
 
+    def insert_author(self, author: str):
+        document = self.schemize({
+            'config_type': 'author',
+            '__author__': author
+        })
+        self.col.update_one(
+            {'config_type':'author'},
+            {'$set': document},
+            upsert=True
+        )
+
     def change_author(self, author: str):
-        self.col.update(
-            {'author_type': 'author'},
+        self.col.update_one(
+            {'config_type': 'author'},
             {
                 '$set': {
                     '__author__': author,

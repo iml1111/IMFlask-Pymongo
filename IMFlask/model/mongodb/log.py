@@ -26,8 +26,7 @@ class Log(Model):
         }
 
     def insert_log(self, document):
-        if self.col:
-            self.col.insert_one(self.schemize(document))
+        self.col.insert_one(self.schemize(document))
 
     def get_log(self, _skip: int, _limit: int):
         return list(

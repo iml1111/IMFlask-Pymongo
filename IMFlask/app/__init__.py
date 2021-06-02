@@ -21,7 +21,7 @@ def create_app(config):
     app.config.from_object(config)
     config.init_app(app)
     api.init_app(app)
-
+    print(app.config)
     app.register_blueprint(error_bp)
     app.register_blueprint(template_bp)
     app.register_blueprint(sample_api_bp, url_prefix='/sample/')

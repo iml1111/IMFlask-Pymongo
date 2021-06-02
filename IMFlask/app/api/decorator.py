@@ -1,9 +1,10 @@
 """
 API Main Decorator
 """
+import json
 from functools import wraps
 from time import time
-from flask import current_app, g
+from flask import current_app, g, Response
 
 
 def timer(func):
@@ -15,10 +16,13 @@ def timer(func):
         g.process_time = time() - process_time
 
         if current_app.config['DEBUG']:
-            if isinstance(result, tuple):
+            if isinstance(result, Response):
+                data = json.loads(result.get_data())
+                data['process_time'] = g.process_time
+                result.set_data(json.dumps(data))
+            elif isinstance(result, tuple):
                 result[0]['process_time'] = g.process_time
             else:
                 result['process_time'] = g.process_time
-
         return result
     return wrapper
