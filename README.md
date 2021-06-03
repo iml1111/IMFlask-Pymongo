@@ -172,16 +172,17 @@ IMFlask
 	│   │   ├── decorator.py
 	│   │   ├── error_handler.py
 	│   │   ├── __init__.py
-	│	│	│
+	│   │	│
 	│   │   ├── sample_api
 	│   │   │   ├── calculator.py
 	│   │   │   ├── info.py
 	│   │   │   └── __init__.py
-	│	│	│
+	│   │	│	
 	│   │   └── template.py
-	│	│
+	│   │	
 	│   ├── asset
 	│   │   └── index.html
+	│   │
 	│   └── __init__.py
 	│
 	├── config.py
