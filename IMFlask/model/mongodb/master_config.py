@@ -23,7 +23,7 @@ class MasterConfig(Model):
         return self.col.find_one(
             {'config_type': 'author'},
             {
-                '_id': 0,
+                '_id': 1,
                 'config_type': 1,
                 '__author__': 1,
                 'created_at': 1,

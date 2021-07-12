@@ -32,7 +32,7 @@ class Log(Model):
         return list(
             self.col.find(
                 {}, {
-                '_id': 0,
+                '_id': 1,
                 'ipv4': 1,
                 'url': 1,
                 'method': 1,
