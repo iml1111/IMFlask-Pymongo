@@ -1,14 +1,13 @@
 """
 Application Main Manage Module
 """
-import os
 import unittest
 import click
 from config import config, APP_NAME
-from app import create_app
+from app import create_flask_app
 import model
 
-application = create_app(config)
+application = create_flask_app(config)
 
 @application.shell_context_processor
 def make_shell_context():

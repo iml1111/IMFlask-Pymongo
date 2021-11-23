@@ -3,7 +3,7 @@ Basics Test Case
 """
 import unittest
 from flask import current_app
-from app import create_app
+from app import create_flask_app
 from config import config_dict
 
 # TODO: 테스트 케이스 작성 및 Mock 테스트 해보기
@@ -13,7 +13,7 @@ class BasicsTestCase(unittest.TestCase):
 
     def setUp(self):
         '''전처리 메소드'''
-        self.app = create_app(config_dict['testing'])
+        self.app = create_flask_app(config_dict['testing'])
         self.app_context = self.app.app_context()
         self.app_context.push()
         self.client = self.app.test_client()

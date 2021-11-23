@@ -21,7 +21,7 @@ class CustomJSONEncoder(JSONEncoder):
             return super().default(obj)
 
 
-def create_app(config):
+def create_flask_app(config):
     app = Flask(
         import_name=__name__,
         instance_relative_config=True,
