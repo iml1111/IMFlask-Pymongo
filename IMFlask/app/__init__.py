@@ -9,6 +9,7 @@ from app import api
 from app.api.template import template as template_bp
 from app.api.error_handler import error_handler as error_bp
 from app.api.sample_api import sample_api as sample_api_bp
+from model import register_connection_pool
 
 
 class CustomJSONEncoder(JSONEncoder):
@@ -34,6 +35,7 @@ def create_flask_app(config):
     app.config.from_object(config)
     config.init_app(app)
     api.init_app(app)
+    register_connection_pool(app)
 
     app.register_blueprint(error_bp)
     app.register_blueprint(template_bp)

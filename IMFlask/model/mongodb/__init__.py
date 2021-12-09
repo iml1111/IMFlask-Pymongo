@@ -9,7 +9,7 @@ MODELS = [Log, MasterConfig]
 
 def get_cursor(uri=config.MONGODB_URI) -> MongoClient:
     """Get MongoDB Cursor"""
-    return MongoClient(uri)
+    return MongoClient(uri, connect=False)
 
 
 class ModelInitializer:

@@ -1,12 +1,11 @@
 """
 API Request Handler and util
 """
-from flask import g, current_app, request, Response
-from model import mongodb
+from flask import Flask, g, current_app, request, Response
 from model.mongodb import Log
 
 
-def init_app(app):
+def init_app(app: Flask):
 
     @app.before_first_request
     def before_first_request():
@@ -14,9 +13,7 @@ def init_app(app):
 
     @app.before_request
     def before_request():
-        config = current_app.config
-        # DB Connection
-        g.db = mongodb.get_cursor(config['MONGODB_URI'])
+        pass
 
     @app.after_request
     def after_request(response):
@@ -41,7 +38,7 @@ def init_app(app):
             else:
                 status_code = response[1]
 
-            Log(g.db).insert_log({
+            Log(current_app.db).insert_log({
                 'ipv4': request.remote_addr,
                 'url': request.full_path,
                 'method': request.method,
@@ -53,10 +50,7 @@ def init_app(app):
 
     @app.teardown_request
     def teardown_request(exception):
-        # DB Connection Close
-        db = g.pop('db', None)
-        if db:
-            db.close()
+        pass
 
     @app.teardown_appcontext
     def teardown_appcontext(exception):
