@@ -60,15 +60,14 @@ elif FLASK_CONFIG == 'production':
                     'handlers': ['file']
                 }
             })
-
-elif FLASK_CONFIG == 'testing':
-    class AppConfig(Config):
-        DEBUG = True
-        TESTING = True
 else:
     raise Exception("Flask Config not Selected.")
 
 config = AppConfig
+
+class TestConfig(Config):
+    DEBUG = True
+    TESTING = True
 
 if __name__ == '__main__':
     pass
