@@ -4,14 +4,14 @@ Calculator Test Case
 import unittest
 from random import randint
 from app import create_flask_app
-from config import config_dict as config
+from config import TestConfig
 
 
 class CalculatorTestCase(unittest.TestCase):
     """Calculator Test Case"""
 
     def setUp(self) -> None:
-        self.app = create_flask_app(config['testing'])
+        self.app = create_flask_app(TestConfig)
         self.app_context = self.app.app_context()
         self.app_context.push()
         self.client = self.app.test_client()
