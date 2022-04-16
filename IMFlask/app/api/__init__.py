@@ -27,7 +27,7 @@ def init_app(app: Flask):
             log_str = "\n!!! SLOW API DETECTED !!! \n" + \
                       "ip: " + request.remote_addr + "\n" + \
                       "url: " + request.full_path + "\n" + \
-                      "input_json: " + str(request.get_json()) + "\n" + \
+                      "input_json: " + str(request.get_json(silent=True)) + "\n" + \
                       "slow time: " + str(g.process_time) + "\n"
             app.logger.warning(log_str)
 

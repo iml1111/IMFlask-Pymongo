@@ -37,7 +37,7 @@ elif FLASK_CONFIG == 'production':
 
         @staticmethod
         def init_app(app):
-            '''logging'''
+            '''File Logger Sample'''
             dictConfig({
                 'version': 1,
                 'formatters': {
