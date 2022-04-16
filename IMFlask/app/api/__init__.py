@@ -58,28 +58,3 @@ def init_app(app: Flask):
     @app.teardown_appcontext
     def teardown_appcontext(exception):
         pass
-
-
-def response_200(result=None):
-    if result is None:
-        return {'msg': 'success'}, 200
-    else:
-        return {'msg': 'success', 'result': result}, 200
-
-created = ({"msg": "created"}, 201)
-
-no_content = ({}, 204)
-
-def bad_request(description):
-    return {'msg': 'fail', 'description': description}, 400
-
-def forbidden(description):
-    return {
-        'msg': 'fail',
-        'description': description
-    }, 403
-
-not_found = {
-    'msg': 'fail',
-    'description': "Resource not found."
-}, 404
