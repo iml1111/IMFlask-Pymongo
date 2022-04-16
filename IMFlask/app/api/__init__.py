@@ -24,12 +24,15 @@ def init_app(app: Flask):
             'process_time' in g
             and g.process_time >= config['SLOW_API_TIME']
         ):
-            log_str = "\n!!! SLOW API DETECTED !!! \n" + \
-                      "ip: " + request.remote_addr + "\n" + \
-                      "url: " + request.full_path + "\n" + \
-                      "input_json: " + str(request.get_json(silent=True)) + "\n" + \
-                      "slow time: " + str(g.process_time) + "\n"
-            app.logger.warning(log_str)
+            body = request.get_json(silent=True) or dict(request.form)
+
+            app.logger.warning(
+                "\n!!! SLOW API DETECTED !!!\n" 
+                f"ip: {request.remote_addr}\n" 
+                f"url: {request.full_path}\n"
+                f"body: {body}\n"
+                f"slow time: {g.process_time}\n"
+            )
 
         # API Logging
         if config['API_LOGGING']:
