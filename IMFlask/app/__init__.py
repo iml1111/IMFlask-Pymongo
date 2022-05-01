@@ -2,7 +2,7 @@
 Application Factory Module
 """
 from datetime import datetime
-from flask import Flask
+from flask import Flask, _app_ctx_stack
 from flask.json import JSONEncoder
 from bson.objectid import ObjectId
 from app import api
@@ -42,3 +42,8 @@ def create_flask_app(config):
     app.register_blueprint(sample_api_bp, url_prefix='/sample/')
 
     return app
+
+
+def is_running():
+    top = _app_ctx_stack.top
+    return top is not None
