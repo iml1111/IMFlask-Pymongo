@@ -55,5 +55,6 @@ def _log(level: str, *args):
     else:
         raise RuntimeError('Undefined loglevel.')
 
+
 if __name__ == '__main__':
-    pass
+    info('default log execute...')
