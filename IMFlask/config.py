@@ -20,6 +20,8 @@ class Config:
     SECRET_KEY = "top-secret"
     MONGODB_URI = os.environ[APP_NAME + "_MONGODB_URI"]
     MONGODB_NAME = os.environ[APP_NAME + "_MONGODB_NAME"]
+    # API 타이머 출력 경로 (response, log, none)
+    TIMER_OUTPUT = os.getenv('TIMER_OUTPUT', 'response')
 
     @staticmethod
     def init_app(app):
