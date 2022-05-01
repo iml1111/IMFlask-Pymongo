@@ -13,3 +13,8 @@ def multiply(a: int, b: int):
 
 def divide(a: int, b: int):
     return a / b
+
+
+if __name__ == '__main__':
+    from controller import log
+    log.info('default logger log...')

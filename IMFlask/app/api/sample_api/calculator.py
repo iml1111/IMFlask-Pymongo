@@ -6,7 +6,7 @@ from flask_validation_extended import ValidationRule
 from app.api.response import response_200, bad_request
 from app.api.sample_api import sample_api as api
 from app.api.decorator import timer
-from controller import calculator
+from controller import calculator, log
 
 
 @api.route('/add')
@@ -16,6 +16,7 @@ def add_api(
     a=Query(int),
     b=Query(int)
 ):
+    log.info('add api execute...')
     return response_200(calculator.add(a, b))
 
 
