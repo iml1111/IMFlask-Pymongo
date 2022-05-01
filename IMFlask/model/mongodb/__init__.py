@@ -1,14 +1,12 @@
+from flask import current_app
 from pymongo import MongoClient
 from config import config
 
-# Collections
-from .log import Log
-from .master_config import MasterConfig
-MODELS = [Log, MasterConfig]
 
-
-def get_cursor(uri=config.MONGODB_URI) -> MongoClient:
+def get_cursor(uri: str = None) -> MongoClient:
     """Get MongoDB Cursor"""
+    if not uri:
+        uri = config.MONGODB_URI
     return MongoClient(uri, connect=False)
 
 
@@ -44,3 +42,8 @@ class ModelInitializer:
     def init_hello(cur):
         """Customize for you"""
 
+
+# Collections
+from .log import Log
+from .master_config import MasterConfig
+MODELS = [Log, MasterConfig]

@@ -12,13 +12,13 @@ from model.mongodb import MasterConfig, Log
 @api.route('/log')
 @timer
 def get_log_api():
-    return response_200(Log(current_app.db).get_log(0, 10))
+    return response_200(list(Log().get_log(0, 10)))
 
 
 @api.route('/author')
 @timer
 def get_author_api():
-    return response_200(MasterConfig(current_app.db).get_author())
+    return response_200(MasterConfig().get_author())
 
 
 @api.route('/author', methods=['POST', 'PUT'])
@@ -26,9 +26,8 @@ def get_author_api():
 def change_author_api(
     name=Json(str)
 ):
-    MasterConfig(current_app.db).change_author(name)
+    MasterConfig().change_author(name)
     return created
-
 
 
 @api.route('/jsonify')

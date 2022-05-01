@@ -31,3 +31,7 @@ def get_random_id():
     string_pool = ascii_letters + "0123456789"
     rand_string = [choice(string_pool) for _ in range(15)]
     return "".join(rand_string)
+
+
+if __name__ == '__main__':
+    pass

@@ -41,7 +41,7 @@ def init_app(app: Flask):
             else:
                 status_code = response[1]
 
-            Log(current_app.db).insert_log({
+            Log().insert_log({
                 'ipv4': request.remote_addr,
                 'url': request.full_path,
                 'method': request.method,
