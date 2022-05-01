@@ -1,31 +1,23 @@
 from flask import Blueprint, jsonify, request
-# from flask import render_template
+from werkzeug.exceptions import HTTPException
+from app.api.response import not_found, bad_request
 
 error_handler = Blueprint("error_handler", __name__)
 
 
 @error_handler.app_errorhandler(400)
-def bad_request(error):
+def bad_request_error(error: HTTPException):
     """400 Error Handler"""
-    if request.accept_mimetypes.accept_json and \
-        not request.accept_mimetypes.accept_html:
-        return jsonify(msg=str(error)), 400
-    return '<h1>400 Page</h1>', 400
+    return bad_request(error.description)
 
 
 @error_handler.app_errorhandler(404)
-def not_found(error):
+def not_found_error(error: HTTPException):
     """404 Error Handler"""
-    if request.accept_mimetypes.accept_json and \
-       not request.accept_mimetypes.accept_html:
-        return jsonify(msg=str(error)), 404
-    return "<h1>404 page</h1>", 404
+    return not_found
 
 
 @error_handler.app_errorhandler(500)
 def internal_server_error(error):
-    """500 Error Handler"""
-    if request.accept_mimetypes.accept_json and \
-       not request.accept_mimetypes.accept_html:
-        return jsonify(msg=str(error)), 500
-    return "<h1>Internal Server Error</h1>", 500
+    """500 Error Handler (production only)"""
+    return jsonify(msg=str(error)), 500

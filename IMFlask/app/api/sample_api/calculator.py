@@ -1,6 +1,7 @@
 """
 Calculator API
 """
+from flask import abort
 from flask_validation_extended import Validator, Query
 from flask_validation_extended import ValidationRule
 from app.api.response import response_200, bad_request
