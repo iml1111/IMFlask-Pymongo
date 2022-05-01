@@ -29,7 +29,7 @@ class Log(Model):
         self.col.insert_one(self.schemize(document))
 
     def get_log(self, _skip: int, _limit: int):
-        return list(
+        return (
             self.col.find(
                 {}, self.p(all=True)
             )
