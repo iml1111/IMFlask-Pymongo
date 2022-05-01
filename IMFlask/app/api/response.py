@@ -10,8 +10,10 @@ created = ({"msg": "created"}, 201)
 
 no_content = ({}, 204)
 
+
 def bad_request(description):
     return {'msg': 'fail', 'description': description}, 400
+
 
 bad_access_token = (
     {
@@ -25,6 +27,7 @@ def forbidden(description):
         'msg': 'fail',
         'description': description
     }, 403
+
 
 not_found = {
     'msg': 'fail',
