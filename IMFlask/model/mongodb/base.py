@@ -33,3 +33,9 @@ class Model(metaclass=ABCMeta):
     def schemize(self, document: dict) -> dict:
         """Generate JSON scheme"""
         return {**self.schema, **document}
+
+    def p(self, *args, all=False) -> dict:
+        if not all:
+            return {field: 1 for field in args}
+        else:
+            return {field: 1 for field in self.schema.keys()}

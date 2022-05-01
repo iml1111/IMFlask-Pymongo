@@ -31,15 +31,8 @@ class Log(Model):
     def get_log(self, _skip: int, _limit: int):
         return list(
             self.col.find(
-                {}, {
-                '_id': 1,
-                'ipv4': 1,
-                'url': 1,
-                'method': 1,
-                'params': 1,
-                'status_code': 1,
-                'created_at': 1,
-            })
+                {}, self.p(all=True)
+            )
             .sort([('created_at', DESCENDING)])
             .skip(_skip)
             .limit(_limit)

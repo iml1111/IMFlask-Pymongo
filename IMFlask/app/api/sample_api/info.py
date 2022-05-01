@@ -30,7 +30,6 @@ def change_author_api(
     return created
 
 
-
 @api.route('/jsonify')
 def get_jsonify_api():
     return jsonify(msg='성공!')
