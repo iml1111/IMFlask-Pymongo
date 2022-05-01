@@ -16,7 +16,6 @@ def add_api(
     a=Query(int),
     b=Query(int)
 ):
-    log.info('add api execute...')
     return response_200(calculator.add(a, b))
 
 
