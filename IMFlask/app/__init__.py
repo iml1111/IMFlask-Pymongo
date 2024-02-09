@@ -1,9 +1,11 @@
 """
 Application Factory Module
 """
+from typing import Any, Union
+import json
 from datetime import datetime
-from flask import Flask, _app_ctx_stack
-from flask.json import JSONEncoder
+from flask import Flask
+from flask.json.provider import JSONProvider
 from bson.objectid import ObjectId
 from app import api
 from app.api.template import template as template_bp
@@ -12,7 +14,7 @@ from app.api.sample_api import sample_api as sample_api_bp
 from model import register_connection_pool
 
 
-class CustomJSONEncoder(JSONEncoder):
+class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, datetime):
             return obj.strftime("%Y-%m-%d %H:%m:%S")
@@ -20,6 +22,15 @@ class CustomJSONEncoder(JSONEncoder):
             return str(obj)
         else:
             return super().default(obj)
+
+
+class CustomJsonProvider(JSONProvider):
+
+    def dumps(self, obj: Any, **kwargs: Any) -> str:
+        return json.dumps(obj, **kwargs, cls=CustomJSONEncoder)
+
+    def loads(self, s: Union[str, bytes], **kwargs: Any) -> Any:
+        return json.loads(s, **kwargs)
 
 
 def create_flask_app(config):
@@ -31,7 +42,7 @@ def create_flask_app(config):
         template_folder='asset/'
     )
 
-    app.json_encoder = CustomJSONEncoder
+    app.json = CustomJsonProvider(app)
     app.config.from_object(config)
     config.init_app(app)
     api.init_app(app)
@@ -42,8 +53,3 @@ def create_flask_app(config):
     app.register_blueprint(sample_api_bp, url_prefix='/sample/')
 
     return app
-
-
-def is_running():
-    top = _app_ctx_stack.top
-    return top is not None

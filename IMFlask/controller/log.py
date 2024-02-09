@@ -30,9 +30,9 @@ class DefaultLogger(SingletonInstane):
 
 
 def get_app_logger() -> Logger:
-    if app.is_running():
+    try:
         logger = current_app.logger
-    else:
+    except RuntimeError:
         logger = DefaultLogger.instance().logger
     return logger
 

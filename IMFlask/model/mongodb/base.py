@@ -1,6 +1,6 @@
 from abc import ABCMeta
 from datetime import datetime
-from flask import _app_ctx_stack, current_app
+from flask import current_app
 from pymongo import MongoClient
 from model.mongodb import get_cursor
 from config import config
@@ -15,10 +15,13 @@ class Model(metaclass=ABCMeta):
         client: MongoClient = None,
         db_name: str = config.MONGODB_NAME
     ):
-        if client is None and _app_ctx_stack.top is not None:
+        try:
             client: MongoClient = current_app.db
-        elif client is None:
-            client: MongoClient = get_cursor()
+        except RuntimeError:
+            if client is None:
+                client: MongoClient = get_cursor()
+            else:
+                client: MongoClient = client
         self.col = client[db_name][self.__class__.__name__]
 
     @property
